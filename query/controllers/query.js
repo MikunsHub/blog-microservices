@@ -2,6 +2,7 @@ const path = require("path");
 const { randomBytes } = require('crypto');
 const axios = require('axios');
 const asyncHandler = require("../middleware/async");
+const { post } = require("../routes/query");
 
 const posts = {};
 
@@ -9,6 +10,7 @@ const posts = {};
 // @route GET /api/v1/posts
 // @access Public
 exports.getPosts = asyncHandler(async (req,res,next) => {
+
     res.status(200).json({ success: true, data: posts});
 });
 
@@ -20,7 +22,20 @@ exports.receiveEvent = asyncHandler(async (req,res,next) => {
 
     const { type, data } = req.body;
 
-    if( type)
 
-    res.status(200).json({ success: true});
+    if(type === 'PostCreated') {
+        const { id, title } = data;
+
+        posts[id] = { id, title, comments: [] };
+    }
+
+    if (type === 'CommentCreated') {
+        const { id, content, postId} = data;
+
+        const post = posts[postId]
+        post.comments.push( { id, content});
+    }
+
+    console.log("posts",posts)
+    res.status(200).json({ success: true, data: posts});
 });
