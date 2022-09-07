@@ -2,7 +2,7 @@ const path = require("path");
 const { randomBytes } = require('crypto');
 const axios = require('axios');
 const asyncHandler = require("../middleware/async");
-const { post } = require("../routes/query");
+// const { post } = require("../routes/query");
 
 const posts = {};
 
@@ -30,12 +30,32 @@ exports.receiveEvent = asyncHandler(async (req,res,next) => {
     }
 
     if (type === 'CommentCreated') {
-        const { id, content, postId} = data;
+        const { id, content, postId, status} = data;
 
-        const post = posts[postId]
-        post.comments.push( { id, content});
+        
+        try{
+            const post = posts[postId]
+            post.comments.push( { id, content, status});
+        } catch(err) {
+            console.log(err.message)
+        }
     }
 
-    console.log("posts",posts)
+    if (type === 'CommentUpdated') {
+        const { id, content, postId, status } = data;
+
+        try{
+            const post = posts[postId];
+            const comment = post.comments.find(comment => {
+                return comment.id === id;
+            });
+            comment.status = status;
+            comment.content = content;
+        } catch(err) {
+            console.log(err.message)
+        }
+    }
+
+    // console.log("posts",posts)
     res.status(200).json({ success: true, data: posts});
 });

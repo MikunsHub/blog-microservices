@@ -1,11 +1,11 @@
 const express = require("express");
 const {
-    receiveEvent,getPosts
-} = require('../controllers/query');
+    receiveEvent
+} = require('../controllers/moderation');
 
 const router = express.Router();
 
-router.route('/').get(getPosts)
+// router.route('/posts').get(getPosts).post(addPosts)
 
 router.route('/events').post(receiveEvent)
 

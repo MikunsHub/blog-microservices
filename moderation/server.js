@@ -2,31 +2,22 @@ const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-const cors = require("cors");
 const colors = require("colors");
-const axios = require('axios');
-const posts = require('./controllers/query');
-const handleEvents = require("./utils/handleEvents");
-
-console.log(posts)
-
 
 //load env vars
 dotenv.config({ path: "./config/config.env" });
 
 //Route files
-const query = require("./routes/query");
+const moderation = require("./routes/moderation");
 
 const app = express();
 
 //Body parser
 app.use(express.json());
 
-//solve cors issue
-app.use(cors());
 
 //Mount routers
-app.use("/api/v1/query", query);
+app.use("/api/v1/moderation", moderation);
 
 //Dev logging middleware
 if (process.env.NODE_ENV === "development") {
@@ -34,28 +25,13 @@ if (process.env.NODE_ENV === "development") {
   }
 
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4003;
 
 const server = app.listen(
 PORT,
 console.log(
     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
-    ),
-async () => {
-  const res = await axios.get("http://localhost:4005/api/v1/events");
-
-  // console.log("res_data ===>> ",res.data.data)
-  try{
-    for (item of res.data.data) {
-      console.log('Processing event:', item.type)
-      handleEvents(item.type,item.data,posts);
-      
-    }
-  } catch(err){
-    console.log(err);
-  }
-
-}
+)
 );
 
 
