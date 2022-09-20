@@ -8,10 +8,10 @@ spec:
     matchLabels:
       app: posts
   template:
-    metadata:
+    metadata: 
       labels:
         app: posts
     spec:
       containers:
         - name: posts
-          image: devmikun/posts:0.0.1
+          image: devmikun/posts:latest
