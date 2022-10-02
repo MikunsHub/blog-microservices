@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === "development") {
   }
 
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4002;
 
 const server = app.listen(
 PORT,
@@ -42,7 +42,7 @@ console.log(
     `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
     ),
 async () => {
-  const res = await axios.get("http://localhost:4005/api/v1/events");
+  const res = await axios.get("http://event-bus-srv:4005/api/v1/events");
 
   // console.log("res_data ===>> ",res.data.data)
   try{

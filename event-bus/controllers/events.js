@@ -12,14 +12,14 @@ exports.getEvents = asyncHandler(async (req,res,next) => {
     
     events.push(event);
     
-    await axios.post('http://localhost:4000/api/v1/posts/events',event);
-    await axios.post('http://localhost:4001/api/v1/comments/events',event);
+    await axios.post('http://posts-clusterip-srv:4000/api/v1/posts/events',event);
+    await axios.post('http://comments-srv:4001/api/v1/comments/events',event);
     try{
-        await axios.post('http://localhost:4002/api/v1/query/events',event);
+        await axios.post('http://query-srv:4002/api/v1/query/events',event);
     }catch(err){
         console.log(err.message);
     }
-    await axios.post('http://localhost:4003/api/v1/moderation/events',event);
+    await axios.post('http://moderation-srv:4003/api/v1/moderation/events',event);
 
     res.status(200).json({ success: true});
 });

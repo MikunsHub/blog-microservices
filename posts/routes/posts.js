@@ -5,7 +5,8 @@ const {
 
 const router = express.Router();
 
-router.route('/').get(getPosts).post(addPosts)
+router.route('/create').post(addPosts)
+// router.route('/').get(getPosts)
 
 router.route('/events').post(receiveEvent)
 

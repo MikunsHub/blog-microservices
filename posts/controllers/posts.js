@@ -9,9 +9,9 @@ const posts = {};
 // @desc get Posts
 // @route GET /api/v1/posts
 // @access Public
-exports.getPosts = asyncHandler(async (req,res,next) => {
-    res.status(200).json({ success: true, data: posts});
-});
+// exports.getPosts = asyncHandler(async (req,res,next) => {
+//     res.status(200).json({ success: true, data: posts});
+// });
 
 // @desc Create Posts
 // @route POST /api/v1/posts
@@ -26,7 +26,8 @@ exports.addPosts = async (req,res,next) => {
 
     //emitting events to the event bus
     try{
-        await axios.post('http://localhost:4005/api/v1/events', {
+        // changing localhost to the clusterip service name
+        await axios.post('http://event-bus-srv:4005/api/v1/events', {
         type: 'PostCreated',
         data: {
             id,title

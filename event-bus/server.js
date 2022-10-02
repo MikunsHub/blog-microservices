@@ -23,7 +23,7 @@ app.use(cors());
 //Mount routers
 app.use("/api/v1/events", events);
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4005;
 
 //server port
 const server = app.listen(
